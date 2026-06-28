@@ -6,30 +6,36 @@ class PatoHeaderComponent extends HTMLElement {
         this.mainColor = 'hsl(36, 100%, 50%)';
         this.shadowRoot.innerHTML = `
             <style>
+                * {
+                    box-sizing: border-box;
+                }
                 :host {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
                     width: 100%;
-                    height: var(--height, 5rem);
-                    padding: var(--padding, 1rem 1rem);
+                    height: var(--header-height, 5rem);
+                    padding: var(--page-padding, 1rem 1rem);
                     border: none;
                     border-bottom: var(--border, 2px solid hsl(60, 70%, 50%));
+                    background-color:  var(--bg, hsl(0, 0%, 10%));
                 }
 
-                .sections {
+                .sections,
+                ::slotted(.sections),
+                ::slotted(ul) {
                     display: flex;
                     flex-direction: column;
-                    justify-content: center;
+                    justify-content: space-between;
                     align-items: flex-start;
                     list-style: none;
                     gap: var(--gap, 3rem);
-                    margin-top: 5rem;
+                    margin-top: var(--header-height, 5rem);
                 }
 
-                li {
+                li,
+                ::slotted(li) {
                     border-bottom: var(--border, 1px solid hsl(0, 0%, 40%));
-                    width: 80%;
                     cursor: pointer;
                     margin: 0;
                     padding: 0 ;
@@ -43,7 +49,12 @@ class PatoHeaderComponent extends HTMLElement {
                 h2,
                 h3,
                 h4,
-                h5 {
+                h5,
+                ::slotted(h1),
+                ::slotted(h2),
+                ::slotted(h3),
+                ::slotted(h4),
+                ::slotted(h5) {
                     padding: 0;
                     margin: 0;
                     font-weight: 400;
@@ -56,7 +67,7 @@ class PatoHeaderComponent extends HTMLElement {
                     position: fixed;
                     bottom: 1rem;
                     right: 1rem;
-                    padding: var(--padding, .5rem 1rem);
+                    padding: var(--padding, 1rem 2rem);
                     background-color: var(--cta-color, ${this.mainColor});
                     border: none;
                     border-radius: var(--default-radius, 50%);
@@ -104,7 +115,7 @@ class PatoHeaderComponent extends HTMLElement {
                     ::slotted(button) {
                         position: static;
                         border-radius: var(--border-radius, .5rem);
-                        padding: .5rem;
+                        padding: .25rem .5rem;
                         min-width: 30%;
                         max-width: 70%;
                         height: auto;
@@ -112,19 +123,36 @@ class PatoHeaderComponent extends HTMLElement {
                     }
                 }
 
-                @media (min-width: 1160px) {
+                @media (min-width: 700px){
+                    :host {   
+                        padding: var(--page-padding, 0 3rem);
+                    }
+                }
+
+                @media (min-width: 1024px){
                     :host {
-                        padding: var(--padding, 0 15rem);
+                        padding: var(--page-padding, 0 9rem);
+                        display: grid;
+                        grid-template-columns: auto 1fr auto;
+                        align-items: center;
                     }
                     #sections {
                         display: block;
                     }
 
-                    .sections {
+                    .sections,
+                    ::slotted(.sections),
+                    ::slotted(ul) {
+                        gap: 0rem;
                         flex-direction: row;
+                        justify-content: space-evenly;
+                        align-items: center;
+                        padding: 0;
                         margin: 0;
+                        width: auto;
                     }
-                    li {
+                    li,
+                    ::slotted(li) {
                         border: none;
                     }
 
@@ -142,10 +170,37 @@ class PatoHeaderComponent extends HTMLElement {
                     ::slotted(button) {
                         position: static;
                         border-radius: var(--border-radius, .5rem);
-                        padding: .5rem;
-                        min-width: 20%;
-                        max-width: 70%;
+                        min-width: 9rem;
                         height: auto;
+                    }
+                }
+
+                @media (min-width: 1160px) {
+                    :host {
+                        padding: var(--page-padding, 0 15rem);
+                    }
+                    #sections {
+                        display: block;
+                    }
+
+                    .sections,
+                    ::slotted(.sections),
+                    ::slotted(ul) {
+                        flex-direction: row;
+                        margin: 0;
+                    }
+                    li,
+                    ::slotted(li) {
+                        border: none;
+                    }
+
+                    #menu {
+                        display: none;
+                    }
+                    
+                    .left, 
+                    .right {
+                        display: none;
                     }
                 }
             </style>
@@ -189,7 +244,6 @@ class PatoHeaderComponent extends HTMLElement {
 
         this.right = this.shadowRoot.querySelector('.right');
         sectionClone.classList.add("sections");
-        console.log(sectionClone);
         this.right.appendChild(sectionClone);
 
         this.isOpened = false;

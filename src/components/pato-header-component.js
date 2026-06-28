@@ -62,8 +62,7 @@ class PatoHeaderComponent extends HTMLElement {
                 }
 
                 .cta,
-                ::slotted(.cta),
-                ::slotted(button) {
+                ::slotted(.cta) {
                     position: fixed;
                     bottom: 1rem;
                     right: 1rem;
@@ -166,8 +165,7 @@ class PatoHeaderComponent extends HTMLElement {
                     }
 
                     .cta,
-                    ::slotted(.cta),
-                    ::slotted(button) {
+                    ::slotted(.cta) {
                         position: static;
                         border-radius: var(--border-radius, .5rem);
                         min-width: 9rem;
